@@ -1,0 +1,25 @@
+{
+  "name": "com.control-tools.post-processing-stylized-fog",
+  "version": "0.1.0",
+  "displayName": "Control Tools - Post Processing Stylized Fog",
+  "description": "A URP fullscreen Volume effect for distance-based stylized gradient fog.",
+  "unity": "6000.3",
+  "license": "MIT",
+  "author": {
+    "name": "Control Tools"
+  },
+  "dependencies": {
+    "com.unity.render-pipelines.universal": "17.3.0"
+  },
+  "keywords": [
+    "urp",
+    "unity",
+    "tools",
+    "post-processing",
+    "volume",
+    "fog",
+    "gradient",
+    "control-tools"
+  ],
+  "type": "library"
+}
