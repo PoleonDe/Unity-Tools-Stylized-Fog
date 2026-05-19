@@ -1,6 +1,6 @@
 {
   "name": "com.control-tools.post-processing-stylized-fog",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "displayName": "Control Tools - Post Processing Stylized Fog",
   "description": "A URP fullscreen Volume effect for distance-based stylized gradient fog.",
   "unity": "6000.3",

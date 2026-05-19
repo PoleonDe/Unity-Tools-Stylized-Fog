@@ -10,11 +10,12 @@ namespace Control.Tools.PostProcessing.StylizedFog
     public sealed class StylizedFogRendererFeature : ScriptableRendererFeature
     {
         private const string ShaderName = "Hidden/Control/PostProcessing/StylizedFog";
+        private const string ShaderResourcePath = "ControlTools/PostProcessing/StylizedFog/StylizedFog";
 
         [SerializeField]
         private RenderPassEvent renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing;
 
-        [SerializeField]
+        [SerializeField, HideInInspector]
         private Shader shader;
 
         private StylizedFogPass pass;
@@ -31,7 +32,7 @@ namespace Control.Tools.PostProcessing.StylizedFog
 
         private void OnValidate()
         {
-            shader ??= Shader.Find(ShaderName);
+            shader ??= ResolveShader();
 
             if (pass != null)
                 pass.renderPassEvent = renderPassEvent;
@@ -54,7 +55,7 @@ namespace Control.Tools.PostProcessing.StylizedFog
             EnsureMaterial();
             if (material == null)
             {
-                Debug.LogWarning($"{nameof(StylizedFogRendererFeature)} could not find shader '{ShaderName}'.");
+                Debug.LogWarning($"{nameof(StylizedFogRendererFeature)} could not find shader '{ShaderName}' or Resources/{ShaderResourcePath}.");
                 return;
             }
 
@@ -71,15 +72,29 @@ namespace Control.Tools.PostProcessing.StylizedFog
 
         private void EnsureMaterial()
         {
-            Shader activeShader = shader != null ? shader : Shader.Find(ShaderName);
+            Shader activeShader = ResolveShader();
             if (activeShader == null)
                 return;
+
+            shader = activeShader;
 
             if (material != null && material.shader == activeShader)
                 return;
 
             CoreUtils.Destroy(material);
             material = CoreUtils.CreateEngineMaterial(activeShader);
+        }
+
+        private Shader ResolveShader()
+        {
+            if (shader != null)
+                return shader;
+
+            Shader resourceShader = Resources.Load<Shader>(ShaderResourcePath);
+            if (resourceShader != null)
+                return resourceShader;
+
+            return Shader.Find(ShaderName);
         }
 
         private sealed class StylizedFogPass : ScriptableRenderPass
